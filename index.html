@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Nguyễn Văn Quyền – AI Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#090b10;
+  --bg2:#0e1118;
+  --bg3:#13161f;
+  --border:#1e2230;
+  --accent:#00e5a0;
+  --accent2:#7c6ff7;
+  --text:#e8eaf0;
+  --muted:#6b7080;
+  --card:#111420;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:14px;line-height:1.7;overflow-x:hidden}
+
+/* NOISE OVERLAY */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");opacity:.4;pointer-events:none;z-index:0}
+
+/* GRID BACKGROUND */
+body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:40px 40px;opacity:.3;pointer-events:none;z-index:0}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 48px;display:flex;justify-content:space-between;align-items:center;background:rgba(9,11,16,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:18px;color:var(--accent);letter-spacing:-.5px}
+.nav-links{display:flex;gap:32px}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:12px;letter-spacing:.08em;text-transform:uppercase;transition:color .2s}
+.nav-links a:hover{color:var(--accent)}
+
+/* SECTIONS */
+section{position:relative;z-index:1;padding:100px 48px;max-width:1100px;margin:0 auto}
+
+/* HERO */
+#hero{padding-top:160px;padding-bottom:80px}
+.hero-tag{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border:1px solid var(--accent);border-radius:4px;font-size:11px;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;margin-bottom:32px}
+.hero-tag::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent);animation:blink 1.5s infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+h1{font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:clamp(44px,6vw,80px);line-height:1.05;letter-spacing:-2px;color:#fff;margin-bottom:8px}
+h1 span{color:var(--accent)}
+.hero-sub{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(15px,1.8vw,17px);color:var(--muted);margin:24px 0 40px;max-width:560px;line-height:1.7;font-weight:400;letter-spacing:.01em}
+.hero-cta{display:flex;gap:16px;flex-wrap:wrap}
+.btn-primary{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:var(--accent);color:#090b10;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:14px;letter-spacing:.01em;text-decoration:none;border-radius:4px;transition:opacity .2s}
+.btn-primary:hover{opacity:.85}
+.btn-outline{display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border:1px solid var(--border);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;font-weight:600;font-size:14px;text-decoration:none;border-radius:4px;transition:border-color .2s,color .2s}
+.btn-outline:hover{border-color:var(--accent);color:var(--accent)}
+.hero-stats{display:flex;gap:48px;margin-top:64px;padding-top:48px;border-top:1px solid var(--border)}
+.stat-num{font-family:'Syne',sans-serif;font-size:36px;font-weight:800;color:#fff}
+.stat-num span{color:var(--accent)}
+.stat-lbl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-top:4px}
+
+/* SECTION HEADER */
+.sec-header{display:flex;align-items:center;gap:16px;margin-bottom:56px}
+.sec-num{font-size:11px;color:var(--accent);letter-spacing:.15em;font-weight:500}
+.sec-title{font-family:'Syne',sans-serif;font-size:32px;font-weight:800;color:#fff;letter-spacing:-1px}
+.sec-line{flex:1;height:1px;background:var(--border)}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.about-text{font-size:15px;line-height:1.9;color:#adb3c0}
+.about-text strong{color:var(--accent);font-weight:500}
+.about-info{display:flex;flex-direction:column;gap:0}
+.info-row{display:flex;justify-content:space-between;padding:14px 0;border-bottom:1px solid var(--border);font-size:13px}
+.info-label{color:var(--muted)}
+.info-val{color:var(--text)}
+.info-val a{color:var(--accent);text-decoration:none}
+
+/* SKILLS */
+.skills-wrap{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.skill-cat{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:24px}
+.skill-cat-title{font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:var(--accent);letter-spacing:.15em;text-transform:uppercase;margin-bottom:16px}
+.skill-tags{display:flex;flex-wrap:wrap;gap:8px}
+.tag{padding:5px 12px;border:1px solid var(--border);border-radius:3px;font-size:12px;color:#8b93a8;transition:border-color .2s,color .2s;cursor:default}
+.tag:hover{border-color:var(--accent);color:var(--accent)}
+.tag.highlight{border-color:var(--accent2);color:var(--accent2)}
+
+/* PROJECTS */
+.projects-list{display:flex;flex-direction:column;gap:24px}
+.project-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:32px;transition:border-color .3s;position:relative;overflow:hidden}
+.project-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));opacity:0;transition:opacity .3s}
+.project-card:hover{border-color:rgba(0,229,160,.25)}
+.project-card:hover::before{opacity:1}
+.proj-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
+.proj-title{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:#fff}
+.proj-period{font-size:11px;color:var(--muted);letter-spacing:.08em}
+.proj-desc{color:#8b93a8;font-size:13px;line-height:1.8;margin-bottom:20px}
+.proj-bullets{list-style:none;margin-bottom:20px}
+.proj-bullets li{font-size:12px;color:#7a8294;padding:4px 0;padding-left:16px;position:relative;line-height:1.7}
+.proj-bullets li::before{content:'▸';position:absolute;left:0;color:var(--accent);font-size:10px;top:6px}
+.proj-footer{display:flex;justify-content:space-between;align-items:center}
+.proj-stack{display:flex;gap:8px;flex-wrap:wrap}
+.stack-tag{padding:3px 10px;background:rgba(0,229,160,.07);border:1px solid rgba(0,229,160,.2);border-radius:3px;font-size:11px;color:var(--accent)}
+.proj-link{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);text-decoration:none;transition:color .2s}
+.proj-link:hover{color:var(--accent)}
+
+/* EDUCATION & CERTS */
+.edu-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.edu-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:28px}
+.edu-period{font-size:11px;color:var(--accent);letter-spacing:.1em;margin-bottom:8px}
+.edu-school{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;color:#fff;margin-bottom:4px}
+.edu-major{font-size:13px;color:var(--muted);margin-bottom:12px}
+.edu-gpa{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;background:rgba(124,111,247,.1);border:1px solid rgba(124,111,247,.3);border-radius:3px;font-size:12px;color:var(--accent2)}
+.cert-list{display:flex;flex-direction:column;gap:10px}
+.cert-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border:1px solid var(--border);border-radius:6px;font-size:12px}
+.cert-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0}
+.cert-name{color:var(--text);flex:1}
+.cert-year{color:var(--muted)}
+
+/* CONTACT */
+.contact-wrap{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.contact-text{font-family:'Syne',sans-serif;font-size:28px;font-weight:700;color:#fff;line-height:1.3;margin-bottom:16px}
+.contact-sub{font-size:13px;color:var(--muted);line-height:1.8}
+.contact-links{display:flex;flex-direction:column;gap:12px}
+.contact-item{display:flex;align-items:center;gap:16px;padding:16px 20px;background:var(--card);border:1px solid var(--border);border-radius:6px;text-decoration:none;transition:border-color .2s}
+.contact-item:hover{border-color:var(--accent)}
+.contact-icon{width:32px;height:32px;border-radius:4px;background:rgba(0,229,160,.1);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--accent);flex-shrink:0}
+.contact-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+.contact-value{font-size:13px;color:var(--text)}
+
+/* FOOTER */
+footer{position:relative;z-index:1;text-align:center;padding:48px;border-top:1px solid var(--border);color:var(--muted);font-size:12px}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--bg)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+
+@media(max-width:768px){
+  nav{padding:16px 24px}
+  section{padding:80px 24px}
+  .about-grid,.skills-wrap,.edu-grid,.contact-wrap{grid-template-columns:1fr}
+  h1{font-size:48px}
+  .hero-stats{gap:32px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">NVQ</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#education">Education</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-tag">
+    <span>Available for opportunities</span>
+  </div>
+  <h1>Nguyễn<br/>Văn <span>Quyền</span></h1>
+  <p class="hero-sub">AI Engineer · Computer Science @ UIT-VNU. Passionate about building intelligent systems that deliver real-world impact through Machine Learning & LLMs.</p>
+  <div class="hero-cta">
+    <a href="#projects" class="btn-primary">View Projects →</a>
+    <a href="#contact" class="btn-outline">Get in Touch</a>
+  </div>
+  <div class="hero-stats">
+    <div>
+      <div class="stat-num">3<span>rd</span></div>
+      <div class="stat-lbl">Year CS Student</div>
+    </div>
+    <div>
+      <div class="stat-num">8.35<span>/10</span></div>
+      <div class="stat-lbl">GPA at UIT</div>
+    </div>
+    <div>
+      <div class="stat-num">2<span>+</span></div>
+      <div class="stat-lbl">AI Projects</div>
+    </div>
+    <div>
+      <div class="stat-num">7.0</div>
+      <div class="stat-lbl">IELTS Score</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="sec-header">
+    <span class="sec-num">01</span>
+    <h2 class="sec-title">About Me</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I'm a 3rd-year Computer Science student at the <strong>University of Information Technology (UIT–VNU-HCM)</strong>, specializing in Artificial Intelligence and Machine Learning.</p>
+      <br/>
+      <p>My focus lies in designing and deploying <strong>end-to-end AI systems</strong> — from data pipelines and model training to production-ready APIs and LLM-powered applications. I believe in building AI that actually works at scale.</p>
+      <br/>
+      <p>My long-term goal is to become an AI Engineer who delivers <strong>innovative, high-impact solutions</strong> for businesses and the broader community.</p>
+    </div>
+    <div class="about-info">
+      <div class="info-row"><span class="info-label">Date of Birth</span><span class="info-val">07 / 01 / 2005</span></div>
+      <div class="info-row"><span class="info-label">Location</span><span class="info-val">Linh Trung, TP. Hồ Chí Minh</span></div>
+      <div class="info-row"><span class="info-label">Phone</span><span class="info-val">0378 542 127</span></div>
+      <div class="info-row"><span class="info-label">Email</span><span class="info-val"><a href="mailto:23521329@gm.uit.edu.vn">23521329@gm.uit.edu.vn</a></span></div>
+      <div class="info-row"><span class="info-label">GitHub</span><span class="info-val"><a href="https://github.com/quyen244" target="_blank">github.com/quyen244</a></span></div>
+      <div class="info-row"><span class="info-label">IELTS</span><span class="info-val">7.0 – C1 Advanced (2026)</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="sec-header">
+    <span class="sec-num">02</span>
+    <h2 class="sec-title">Technical Skills</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="skills-wrap">
+    <div class="skill-cat">
+      <div class="skill-cat-title">Languages</div>
+      <div class="skill-tags">
+        <span class="tag highlight">Python</span>
+        <span class="tag">OOP</span>
+        <span class="tag">Functional</span>
+        <span class="tag">C++</span>
+        <span class="tag">SQL</span>
+        <span class="tag">Bash</span>
+      </div>
+    </div>
+    <div class="skill-cat">
+      <div class="skill-cat-title">AI / ML Frameworks</div>
+      <div class="skill-tags">
+        <span class="tag highlight">PyTorch</span>
+        <span class="tag highlight">LangChain</span>
+        <span class="tag">TensorFlow</span>
+        <span class="tag">Scikit-learn</span>
+        <span class="tag">HuggingFace</span>
+        <span class="tag">Pandas</span>
+        <span class="tag">NumPy</span>
+      </div>
+    </div>
+    <div class="skill-cat">
+      <div class="skill-cat-title">AI Domains</div>
+      <div class="skill-tags">
+        <span class="tag highlight">LLMs</span>
+        <span class="tag highlight">NLP</span>
+        <span class="tag highlight">MLOps</span>
+        <span class="tag">Computer Vision</span>
+        <span class="tag">RAG</span>
+        <span class="tag">Anomaly Detection</span>
+      </div>
+    </div>
+    <div class="skill-cat">
+      <div class="skill-cat-title">Tools & Infrastructure</div>
+      <div class="skill-tags">
+        <span class="tag">Docker</span>
+        <span class="tag">Apache Kafka</span>
+        <span class="tag">Apache Spark</span>
+        <span class="tag">Airflow</span>
+        <span class="tag">FastAPI</span>
+        <span class="tag">Streamlit</span>
+        <span class="tag">Git</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="sec-header">
+    <span class="sec-num">03</span>
+    <h2 class="sec-title">Projects</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="projects-list">
+
+    <div class="project-card">
+      <div class="proj-header">
+        <div class="proj-title">Real-Time Sentiment Analysis System</div>
+        <div class="proj-period">07/2025 – 10/2025</div>
+      </div>
+      <p class="proj-desc">End-to-end real-time ML pipeline for classifying customer reviews with sub-second latency. Full MLOps lifecycle from data ingestion to automated model deployment.</p>
+      <ul class="proj-bullets">
+        <li>Architected a real-time pipeline with Kafka + Spark Structured Streaming for sub-second review classification.</li>
+        <li>Converted deep learning models to ONNX format, significantly reducing streaming inference latency.</li>
+        <li>Automated the full MLOps lifecycle—retraining, evaluation, and Champion model deployment—using Airflow.</li>
+        <li>Containerized full stack (Spark, Kafka, Airflow, Postgres) with Docker for seamless scalability.</li>
+        <li>Built a real-time analytics dashboard in Streamlit for sentiment trend monitoring.</li>
+      </ul>
+      <div class="proj-footer">
+        <div class="proj-stack">
+          <span class="stack-tag">Kafka</span>
+          <span class="stack-tag">Spark</span>
+          <span class="stack-tag">Airflow</span>
+          <span class="stack-tag">ONNX</span>
+          <span class="stack-tag">Docker</span>
+          <span class="stack-tag">Streamlit</span>
+        </div>
+        <a href="https://github.com/quyen244/realtime-sentiment-analysis-system" target="_blank" class="proj-link">GitHub →</a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="proj-header">
+        <div class="proj-title">AI Assistant for Business Data</div>
+        <div class="proj-period">02/2026 – 03/2026</div>
+      </div>
+      <p class="proj-desc">LLM-powered analytics engine that ingests raw CSV datasets and auto-generates executive summaries, trend discoveries, and anomaly detections using LangChain.</p>
+      <ul class="proj-bullets">
+        <li>Engineered an automated LangChain system to analyze datasets and generate executive insights.</li>
+        <li>Built a production-ready FastAPI REST server with Pydantic validation and SQLAlchemy ORM.</li>
+        <li>Designed high-context prompting pipelines to effectively extract structured data for LLM reasoning.</li>
+        <li>Developed an interactive data exploration dashboard with Streamlit for non-technical users.</li>
+      </ul>
+      <div class="proj-footer">
+        <div class="proj-stack">
+          <span class="stack-tag">LangChain</span>
+          <span class="stack-tag">FastAPI</span>
+          <span class="stack-tag">LLMs</span>
+          <span class="stack-tag">SQLAlchemy</span>
+          <span class="stack-tag">Streamlit</span>
+        </div>
+        <a href="https://github.com/quyen244/AI-Assistant-for-Business-Data" target="_blank" class="proj-link">GitHub →</a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <div class="sec-header">
+    <span class="sec-num">04</span>
+    <h2 class="sec-title">Education & Certs</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="edu-grid">
+    <div>
+      <div class="edu-card" style="margin-bottom:24px">
+        <div class="edu-period">2023 – 2026</div>
+        <div class="edu-school">University of Information Technology</div>
+        <div class="edu-major">Computer Science · UIT – VNU-HCM</div>
+        <span class="edu-gpa">GPA 8.35 / 10</span>
+        <div style="margin-top:12px;font-size:12px;color:var(--muted)">🏆 "Excellent Student" award (2023–2026)</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-period">2025 – 2026</div>
+        <div class="edu-school">UIT AI Club</div>
+        <div class="edu-major">Member – Advanced programming & AI competitions</div>
+      </div>
+    </div>
+    <div>
+      <div class="cert-list">
+        <div class="cert-item">
+          <div class="cert-dot"></div>
+          <div class="cert-name">TensorFlow Developer – DeepLearning.AI / Coursera</div>
+          <div class="cert-year">2025</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-dot"></div>
+          <div class="cert-name">Applications of AI for Anomaly Detection – NVIDIA</div>
+          <div class="cert-year">2025</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-dot" style="background:var(--accent2)"></div>
+          <div class="cert-name">IELTS Academic – Overall 7.0 (C1 Advanced)</div>
+          <div class="cert-year">2026</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="sec-header">
+    <span class="sec-num">05</span>
+    <h2 class="sec-title">Get in Touch</h2>
+    <div class="sec-line"></div>
+  </div>
+  <div class="contact-wrap">
+    <div>
+      <div class="contact-text">Let's build something intelligent together.</div>
+      <p class="contact-sub">I'm actively looking for AI Engineer internship & junior roles. Feel free to reach out via email or GitHub.</p>
+    </div>
+    <div class="contact-links">
+      <a href="mailto:23521329@gm.uit.edu.vn" class="contact-item">
+        <div class="contact-icon">@</div>
+        <div>
+          <div class="contact-label">Email</div>
+          <div class="contact-value">23521329@gm.uit.edu.vn</div>
+        </div>
+      </a>
+      <a href="tel:0378542127" class="contact-item">
+        <div class="contact-icon">✆</div>
+        <div>
+          <div class="contact-label">Phone</div>
+          <div class="contact-value">0378 542 127</div>
+        </div>
+      </a>
+      <a href="https://github.com/quyen244" target="_blank" class="contact-item">
+        <div class="contact-icon" style="font-size:16px">⌥</div>
+        <div>
+          <div class="contact-label">GitHub</div>
+          <div class="contact-value">github.com/quyen244</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Designed & built by Nguyễn Văn Quyền · 2026</p>
+</footer>
+
+</body>
+</html>
